@@ -10,6 +10,30 @@ def test_creates_valid_movie() -> None:
     assert movie.id == "movie-1"
     assert movie.title == "Arrival"
     assert movie.genres == ["Drama", "Sci-Fi"]
+    assert movie.overview is None
+
+
+def test_accepts_and_strips_overview() -> None:
+    movie = Movie(
+        id="movie-1",
+        title="Arrival",
+        genres=[],
+        overview="  A linguist studies an alien arrival.  ",
+    )
+
+    assert movie.overview == "A linguist studies an alien arrival."
+
+
+def test_accepts_explicit_none_overview() -> None:
+    movie = Movie(id="movie-1", title="Arrival", genres=[], overview=None)
+
+    assert movie.overview is None
+
+
+@pytest.mark.parametrize("overview", ["", "   "])
+def test_rejects_empty_or_whitespace_only_overview(overview: str) -> None:
+    with pytest.raises(ValidationError):
+        Movie(id="movie-1", title="Arrival", genres=[], overview=overview)
 
 
 def test_strips_outer_whitespace_from_id_and_title() -> None:

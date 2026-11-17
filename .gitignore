@@ -6,3 +6,9 @@ __pycache__/
 .env.*
 *.egg-info/
 .DS_Store
+/data/movielens/raw/
+/data/movielens/processed/
+/reports/
+!/reports/
+/reports/*
+!/reports/experiment_report.md
